@@ -1,0 +1,80 @@
+import React from "react";
+
+const ListTable = () => {
+  const clientes = [
+    {
+      id: 1,
+      nombre: "Domenica Canizares",
+      email: "correo@email.com",
+      trabajo: "Developer",
+      rate: "100",
+      estado: true,
+    },
+    {
+      id: 2,
+      nombre: "Domenica1 Canizares",
+      email: "correo1@email.com",
+      trabajo: "Developer1",
+      rate: "100",
+      estado: true,
+    },
+    {
+      id: 3,
+      nombre: "Domenica2 Canizares",
+      email: "correo2@email.com",
+      trabajo: "Developer2",
+      rate: "100",
+      estado: false,
+    },
+  ];
+
+  return (
+    <>
+      <div className="overflow-x-auto mt-10">
+        <table className="table">
+          {/* head */}
+          <thead>
+            <tr>
+              <th></th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Trabajo</th>
+              <th>Rate</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody className="hover">
+            {clientes.map((cliente) => (
+              <tr>
+                <th>{cliente.id}</th>
+                <td>{cliente.nombre}</td>
+                <td>{cliente.email}</td>
+                <td>{cliente.trabajo}</td>
+                <td>{cliente.rate}</td>
+                <td>
+                  <button
+                    className={`btn rounded-full w-20 ${
+                      cliente.estado ? "btn-primary" : "btn-outline btn-primary"
+                    }`}
+                  >
+                    {cliente.estado ? "Activo" : "Inactivo"}
+                  </button>
+                </td>
+                <td>
+                  <button className="btn btn-accent btn-xs">Editar</button>
+                </td>
+                <td>
+                  <button className="btn btn-error btn-xs">Eliminar</button>
+                </td>
+              </tr>
+            ))}
+
+            {/* row 1 */}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+};
+
+export default ListTable;
