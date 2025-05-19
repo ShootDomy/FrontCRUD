@@ -1,6 +1,6 @@
 import React from "react";
 
-const ListTable = () => {
+const ListTable = ({ handleOpen }) => {
   const clientes = [
     {
       id: 1,
@@ -61,7 +61,12 @@ const ListTable = () => {
                   </button>
                 </td>
                 <td>
-                  <button className="btn btn-accent btn-xs">Editar</button>
+                  <button
+                    className="btn btn-accent btn-xs"
+                    onClick={() => handleOpen("edit")}
+                  >
+                    Editar
+                  </button>
                 </td>
                 <td>
                   <button className="btn btn-error btn-xs">Eliminar</button>
