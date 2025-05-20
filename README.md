@@ -27,7 +27,7 @@ Interfaz web de gestión de clientes construida con **React + Vite** y **Tailwin
 
 ## 🖥️ Vista previa
 
-![Vista previa](./path-to-image.png) <!-- Reemplaza con el path correcto si subes la imagen al repo -->
+![Vista previa](![Image](https://github.com/user-attachments/assets/3dd29381-5a4f-4cbd-882d-528a439e4126)) <!-- Reemplaza con el path correcto si subes la imagen al repo -->
 
 ---
 
