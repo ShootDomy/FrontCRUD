@@ -3,7 +3,7 @@ import "./App.css";
 import ListTable from "./components/ListTable";
 import { ModalForm } from "./components/ModalForm";
 import Navbar from "./components/Navbar";
-import axios from "axios";
+import { addCliente, deleteCliente, getClientes, updateCliente } from "./api";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,12 +11,15 @@ function App() {
   const [buscarTermino, setBuscarTermino] = useState("");
   const [clientes, setClientes] = useState([]);
   const [clienteData, setClienteData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/clientes")
+    getClientes()
       .then((res) => setClientes(res.data))
-      .catch((err) => console.error(err));
+      .catch(() => setError("No se pudieron cargar los clientes"))
+      .finally(() => setLoading(false));
   }, []);
 
   const handleOpen = (mode, cliente) => {
@@ -26,62 +29,81 @@ function App() {
   };
 
   const handleSubmit = async (nuevoCliente) => {
-    if (modalMode === "add") {
-      const response = await axios.post(
-        "http://localhost:3000/api/clientes",
-        nuevoCliente
-      );
-
-      console.log("Adding new client", response.data);
-
-      setClientes((prevClientes) => [...prevClientes, response.data]);
-    } else {
-      const response = await axios.put(
-        `http://localhost:3000/api/clientes/${clienteData.id}`,
-        nuevoCliente
-      );
-      console.log("Editing client", response.data);
-
-      setClientes((prevClientes) =>
-        prevClientes.map((cliente) =>
-          cliente.id === clienteData.id ? response.data : cliente
-        )
-      );
+    try {
+      if (modalMode === "add") {
+        const response = await addCliente(nuevoCliente);
+        setClientes((prevClientes) => [...prevClientes, response.data]);
+        setSuccess("Cliente añadido correctamente");
+      } else {
+        const response = await updateCliente(clienteData.id, nuevoCliente);
+        setClientes((prevClientes) =>
+          prevClientes.map((cliente) =>
+            cliente.id === clienteData.id ? response.data : cliente
+          )
+        );
+        setSuccess("Cliente editado correctamente");
+      }
+      setIsOpen(false);
+    } catch {
+      setError("Ocurrió un error al guardar el cliente");
     }
   };
 
-  const handleSearchChange = (event) => {
-    setBuscarTermino(event.target.value);
+  const clientesFiltrados = clientes.filter((cliente) => {
+    if (!cliente) return false;
+    return (
+      cliente.nombre?.toLowerCase().includes(buscarTermino.toLowerCase()) ||
+      cliente.email?.toLowerCase().includes(buscarTermino.toLowerCase()) ||
+      cliente.trabajo?.toLowerCase().includes(buscarTermino.toLowerCase())
+    );
+  });
+
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm("¿Estás seguro de eliminar este cliente?");
+    if (confirmed) {
+      await deleteCliente(id).catch(() => setError("No se elimino al cliente"));
+      setClientes((prevClientes) =>
+        prevClientes.filter((cliente) => cliente.id !== id)
+      );
+      setSuccess("Cliente eliminado correctamente");
+    }
+  };
+
+  useEffect(() => {
+    if (success || error) {
+      const timer = setTimeout(() => {
+        setSuccess(null);
+        setError(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [success, error]);
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+    setClienteData(null);
   };
 
   return (
     <>
+      {error && <div className="alert alert-error">Error: {error}</div>}
+      {success && <div className="alert alert-success">{success}</div>}
+
       <Navbar onOpen={() => handleOpen("add")} onSearch={setBuscarTermino} />
 
-      <div className="flex justify-end mt-4 mr-10">
-        <input
-          type="text"
-          placeholder="Buscar"
-          className="input input-bordered w-24 md:w-auto mr-10"
-          value={buscarTermino}
-          onChange={handleSearchChange}
+      {loading ? (
+        <div>Cargando...</div>
+      ) : (
+        <ListTable
+          handleOpen={handleOpen}
+          clientes={clientesFiltrados}
+          onDelete={handleDelete}
         />
-
-        <button className="btn btn-primary" onClick={() => handleOpen("add")}>
-          Añadir Cliente
-        </button>
-      </div>
-
-      <ListTable
-        handleOpen={handleOpen}
-        searchTerm={buscarTermino}
-        setClientes={setClientes}
-        clientes={clientes}
-      />
+      )}
 
       <ModalForm
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={handleCloseModal}
         onSubmit={handleSubmit}
         mode={modalMode}
         clienteData={clienteData}

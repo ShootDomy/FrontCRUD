@@ -6,29 +6,47 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, mode, clienteData }) => {
   const [trabajo, setTrabajo] = useState("");
   const [rate, setRate] = useState("");
   const [estado, setEstado] = useState(true);
-  // const [id, setId] = useState("");
+  const [formError, setFormError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const handleEstadoChange = (e) => {
     setEstado(e.target.value === "Activo");
   };
 
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!nombre || !email || !trabajo || !rate) {
+      setFormError("Todos los campos son obligatorios.");
+      return;
+    }
+    if (!validateEmail(email)) {
+      setFormError("El email no es válido.");
+      return;
+    }
+    if (Number(rate) < 0) {
+      setFormError("El rate debe ser mayor o igual a 0.");
+      return;
+    }
+    setFormError("");
+    setSubmitting(true);
     try {
-      const clienteData = {
+      const data = {
         nombre,
         email,
         trabajo,
         rate: Number(rate),
-        estado: estado,
+        estado,
       };
-
-      await onSubmit(clienteData);
+      await onSubmit(data);
       onClose();
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
+      setFormError("Error al enviar el formulario.");
+    } finally {
+      setSubmitting(false);
     }
-    onClose();
   };
 
   useEffect(() => {
@@ -45,84 +63,151 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, mode, clienteData }) => {
       setRate("");
       setEstado(true);
     }
-  }, [mode, clienteData]);
+    setFormError("");
+  }, [mode, clienteData, isOpen]);
 
   return (
-    <>
-      <dialog
-        id="my_modal_5"
-        className="modal modal-bottom sm:modal-middle"
-        open={isOpen}
-      >
-        <div className="modal-box">
-          <h3 className="font-bold text.lg py-4">
-            {mode === "add" ? "Añadir Cliente" : "Editar Cliente"}
-          </h3>
-          <form method="dialog" onSubmit={handleSubmit}>
-            <label className="input input-bordered my-4 flex items-center gap-2">
+    <dialog
+      id="my_modal_5"
+      className="modal modal-bottom sm:modal-middle"
+      open={isOpen}
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div className="modal-box relative transition-all duration-300">
+        {/* Botón cerrar */}
+        <button
+          type="button"
+          onClick={onClose}
+          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          aria-label="Cerrar"
+        >
+          <span aria-hidden="true">❌</span>
+        </button>
+        {/* Título */}
+        <h3
+          id="modal-title"
+          className="font-bold text-2xl text-center py-4 mb-2"
+        >
+          {mode === "add" ? "Añadir Cliente" : "Editar Cliente"}
+        </h3>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {formError && (
+            <div className="alert alert-error mb-2">{formError}</div>
+          )}
+          <div>
+            <label htmlFor="nombre" className="block font-semibold mb-1">
               Nombre
-              <input
-                type="text"
-                className="grow"
-                // placeholder="Ingrese el nombre"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-              />
             </label>
-            <label className="input input-bordered my-4 flex items-center gap-2">
+            <input
+              id="nombre"
+              type="text"
+              className={`input input-bordered w-full ${
+                formError && !nombre ? "input-error" : ""
+              }`}
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              aria-label="Nombre"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="block font-semibold mb-1">
               Email
-              <input
-                type="text"
-                className="grow"
-                // placeholder="Ingrese el correo"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
             </label>
-            <label className="input input-bordered my-4 flex items-center gap-2">
+            <input
+              id="email"
+              type="email"
+              className={`input input-bordered w-full ${
+                formError && !email ? "input-error" : ""
+              }`}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              aria-label="Email"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="trabajo" className="block font-semibold mb-1">
               Trabajo
-              <input
-                type="text"
-                className="grow"
-                // placeholder="Ingrese el trabajo"
-                value={trabajo}
-                onChange={(e) => setTrabajo(e.target.value)}
-              />
             </label>
-            <div className="flex mb-4 justify-between my-4">
-              <label className="input input-bordered flex items-center gap-2">
+            <input
+              id="trabajo"
+              type="text"
+              className={`input input-bordered w-full ${
+                formError && !trabajo ? "input-error" : ""
+              }`}
+              value={trabajo}
+              onChange={(e) => setTrabajo(e.target.value)}
+              aria-label="Trabajo"
+              required
+            />
+          </div>
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <label htmlFor="rate" className="block font-semibold mb-1">
                 Rate
-                <input
-                  type="number"
-                  className="grow"
-                  // placeholder="Ingrese el rate"
-                  value={rate}
-                  onChange={(e) => setRate(e.target.value)}
-                />
+              </label>
+              <input
+                id="rate"
+                type="number"
+                className={`input input-bordered w-full ${
+                  formError && (rate === "" || Number(rate) < 0)
+                    ? "input-error"
+                    : ""
+                }`}
+                value={rate}
+                onChange={(e) => setRate(e.target.value)}
+                aria-label="Rate"
+                required
+                min={0}
+              />
+            </div>
+            <div className="flex-1">
+              <label htmlFor="estado" className="block font-semibold mb-1">
+                Estado
               </label>
               <select
+                id="estado"
                 value={estado ? "Activo" : "Inactivo"}
-                className="select select-bordered w-full max-w-xs"
+                className="select select-bordered w-full"
                 onChange={handleEstadoChange}
+                aria-label="Estado"
               >
-                {/* <option disabled={true}>Estado</option> */}
                 <option>Activo</option>
                 <option>Inactivo</option>
               </select>
             </div>
-            <button className="btn btn-success">
-              {mode === "add" ? "Crear" : "Editar"}
-            </button>{" "}
-            <button
-              type="button"
-              onClick={onClose}
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            >
-              ✕
+          </div>
+          <div className="flex justify-end gap-4 mt-6">
+            <button type="button" onClick={onClose} className="btn btn-ghost">
+              Cancelar
             </button>
-          </form>
-        </div>
-      </dialog>
-    </>
+            <button
+              className={`btn btn-success flex items-center gap-2 ${
+                submitting ? "opacity-70 cursor-not-allowed" : ""
+              }`}
+              type="submit"
+              disabled={submitting}
+            >
+              {submitting ? (
+                <>
+                  <span className="loading loading-spinner loading-xs"></span>
+                  Guardando...
+                </>
+              ) : mode === "add" ? (
+                <>
+                  <span aria-hidden="true">➕</span> Crear
+                </>
+              ) : (
+                <>
+                  <span aria-hidden="true">✏️</span> Editar
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
+    </dialog>
   );
 };
