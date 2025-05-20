@@ -20,6 +20,19 @@ const ListTable = ({ handleOpen, searchTerm }) => {
     );
   });
 
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm("¿Estás seguro de eliminar este cliente?");
+    if (confirmed) {
+      const response = await axios.delete(
+        `http://localhost:3000/api/clientes/${id}`
+      );
+      setClientes((prevClientes) =>
+        prevClientes.filter((cliente) => cliente.id !== id)
+      );
+      console.log("Cliente eliminado", response.data);
+    }
+  };
+
   // const clientes = [
   //   {
   //     id: 1,
@@ -90,7 +103,12 @@ const ListTable = ({ handleOpen, searchTerm }) => {
                   </button>
                 </td>
                 <td>
-                  <button className="btn btn-error btn-xs">Eliminar</button>
+                  <button
+                    className="btn btn-error btn-xs"
+                    onClick={() => handleDelete(cliente.id)}
+                  >
+                    Eliminar
+                  </button>
                 </td>
               </tr>
             ))}
