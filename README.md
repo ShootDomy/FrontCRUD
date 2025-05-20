@@ -1,6 +1,6 @@
 # FrontCRUD
 
-Interfaz web de gestión de clientes construida con React y TailwindCSS. Permite visualizar, buscar, editar, eliminar y exportar registros de clientes, además de gestionar su estado y detalles asociados.
+Interfaz web de gestión de clientes construida con React + Vite y TailwindCSS. Permite visualizar, buscar, editar, eliminar y exportar registros de clientes, además de gestionar su estado y detalles asociados.
 
 ## 🖥️ Vista previa
 
@@ -31,6 +31,37 @@ git clone https://github.com/ShootDomy/FrontCRUD.git
 cd FrontCRUD
 npm install
 npm run dev
+```
+
+```graphql
+src/
+├── components/       # Componentes reutilizables (tabla, botones, formularios)
+├── pages/            # Vistas principales (Dashboard, Crear, Editar)
+├── services/         # Lógica para peticiones HTTP (API)
+├── utils/            # Funciones auxiliares
+├── App.jsx           # Enrutamiento general
+└── main.jsx          # Punto de entrada principal
+```
+
+## 📤 Exportar Excel
+La funcionalidad de exportación convierte la tabla de clientes en un archivo .xlsx utilizando una librería como xlsx (asegúrate de que esté instalada).
+
+## 🧪 Por hacer
+Validaciones más robustas en los formularios.
+
+Manejo de errores en peticiones.
+
+Notificaciones de éxito/error.
+
+Filtro avanzado por roles, rate, etc.
+
+Paginación dinámica desde backend.
+
+## 👩‍💻 Autora
+Doménica Cañizares
+GitHub: @ShootDomy
+Correo: canizaresdomenica4@gmail.com
+LinkedIn: https://www.linkedin.com/in/domenica-vintimilla-24a735245/
 
 
 
