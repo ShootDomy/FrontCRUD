@@ -14,6 +14,7 @@ Interfaz web de gestión de clientes construida con **React + Vite** y **Tailwin
 - [FrontCRUD](#frontcrud)
   - [📑 Tabla de Contenidos](#-tabla-de-contenidos)
   - [🖥️ Vista previa](#️-vista-previa)
+  - [�️ Vista previa](#️-vista-previa-1)
   - [🚀 Funcionalidades](#-funcionalidades)
   - [🛠️ Tecnologías utilizadas](#️-tecnologías-utilizadas)
   - [📦 Instalación](#-instalación)
@@ -27,7 +28,9 @@ Interfaz web de gestión de clientes construida con **React + Vite** y **Tailwin
 
 ## 🖥️ Vista previa
 
-![Vista previa](![Image](https://github.com/user-attachments/assets/3dd29381-5a4f-4cbd-882d-528a439e4126)) <!-- Reemplaza con el path correcto si subes la imagen al repo -->
+## 🖥️ Vista previa
+
+![Vista previa](https://github.com/user-attachments/assets/3dd29381-5a4f-4cbd-882d-528a439e4126)
 
 ---
 
@@ -116,7 +119,8 @@ Si deseas mejorar este proyecto, por favor abre un issue o haz un pull request.
 
 ## 👩‍💻 Autora
 
-**Doménica Cañizares**  
+**Doménica Cañizares**
+
 - GitHub: [@ShootDomy](https://github.com/ShootDomy)
 - Correo: canizaresdomenica4@gmail.com
 - [LinkedIn](https://www.linkedin.com/in/domenica-vintimilla-24a735245/)
