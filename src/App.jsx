@@ -229,26 +229,44 @@ function App() {
         onSubmit={handleSubmit}
         mode={modalMode}
         clienteData={clienteData}
-        // Para soporte de imágenes, pasa props aquí
       />
 
       {/* Modal de confirmación para eliminar */}
+      {console.log("Modal visible:", showDeleteModal, clienteAEliminar)}
+
       {showDeleteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded shadow-lg">
-            <h2 className="text-lg font-bold mb-4">¿Eliminar cliente?</h2>
-            <p>
+        <div
+          className="modal modal-open"
+          role="dialog"
+          aria-modal="true"
+          tabIndex={0}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowDeleteModal(false);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setShowDeleteModal(false);
+          }}
+        >
+          <div className="modal-box bg-base-200 text-base-content shadow-lg rounded-xl border border-base-300 relative min-w-[320px] max-w-md animate-fadeIn">
+            <h2 className="font-bold text-xl mb-2 text-center">
+              ¿Eliminar cliente?
+            </h2>
+            <p className="mb-4 text-center">
               ¿Estás seguro de eliminar a{" "}
               <span className="font-semibold">{clienteAEliminar?.nombre}</span>?
             </p>
-            <div className="flex justify-end gap-2 mt-4">
+            <div className="flex justify-end gap-2 mt-6">
               <button
                 className="btn btn-ghost"
                 onClick={() => setShowDeleteModal(false)}
               >
                 Cancelar
               </button>
-              <button className="btn btn-error" onClick={handleDeleteConfirm}>
+              <button
+                className="btn btn-error"
+                onClick={handleDeleteConfirm}
+                autoFocus
+              >
                 Eliminar
               </button>
             </div>
