@@ -17,11 +17,12 @@ function App() {
   const [clientes, setClientes] = useState([]);
   const [clienteData, setClienteData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [porPagina, setPorPagina] = useState(5);
   // const [success, setSuccess] = useState(null);
 
   // Paginación y filtros
   const [pagina, setPagina] = useState(1);
-  const porPagina = 5;
+  // const porPagina = 5;
   const [estadoFiltro, setEstadoFiltro] = useState("Todos");
 
   // Ordenamiento
@@ -172,7 +173,6 @@ function App() {
         onLogout={handleLogout}
         user={user}
       />
-
       <div className="flex flex-wrap gap-4 items-center my-4">
         {/* Filtro por estado */}
         <select
@@ -186,6 +186,20 @@ function App() {
           <option value="Todos">Todos</option>
           <option value="Activo">Activo</option>
           <option value="Inactivo">Inactivo</option>
+        </select>
+        {/* Selector de cantidad por página */}
+        <select
+          className="select select-bordered w-24"
+          value={porPagina}
+          onChange={(e) => {
+            setPorPagina(Number(e.target.value));
+            setPagina(1);
+          }}
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+          <option value={50}>50</option>
         </select>
         {/* Exportar */}
         <button className="btn btn-outline" onClick={handleExportarExcel}>
