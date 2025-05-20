@@ -111,8 +111,8 @@ El botón **Exportar Excel** descargará los clientes filtrados en un archivo Ex
 **Doménica Cañizares**
 
 - GitHub: [@ShootDomy](https://github.com/ShootDomy)
-- Correo: canizaresdomenica4@gmail.com
-- [LinkedIn](https://www.linkedin.com/in/domenica-vintimilla-24a735245/)
+- Correo: [canizaresdomenica4@gmail.com]canizaresdomenica4@gmail.com
+- LinkedIn:[domenica-vintimilla](https://www.linkedin.com/in/domenica-vintimilla-24a735245/)
 
 ---
 
