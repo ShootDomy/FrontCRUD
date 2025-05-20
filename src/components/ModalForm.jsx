@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export const ModalForm = ({ isOpen, onClose, onSubmit, mode }) => {
+export const ModalForm = ({ isOpen, onClose, onSubmit, mode, clienteData }) => {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [trabajo, setTrabajo] = useState("");
@@ -12,10 +12,39 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, mode }) => {
     setEstado(e.target.value === "Activo");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const clienteData = {
+        nombre,
+        email,
+        trabajo,
+        rate: Number(rate),
+        estado: estado,
+      };
+
+      await onSubmit(clienteData);
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+    }
     onClose();
   };
+
+  useEffect(() => {
+    if (mode === "edit" && clienteData) {
+      setNombre(clienteData.nombre);
+      setEmail(clienteData.email);
+      setTrabajo(clienteData.trabajo);
+      setRate(clienteData.rate);
+      setEstado(clienteData.estado);
+    } else {
+      setNombre("");
+      setEmail("");
+      setTrabajo("");
+      setRate("");
+      setEstado(true);
+    }
+  }, [clienteData, mode]);
 
   return (
     <>

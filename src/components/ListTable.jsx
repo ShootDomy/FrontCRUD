@@ -1,51 +1,56 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const ListTable = ({ handleOpen }) => {
-  const [dataTabla, setDataTabla] = useState([]);
+const ListTable = ({ handleOpen, searchTerm }) => {
+  const [clientes, setClientes] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/api/clientes");
-        setDataTabla(response.data);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-    fetchData();
+    axios
+      .get("http://localhost:3000/api/clientes")
+      .then((res) => setClientes(res.data))
+      .catch((err) => console.error(err));
   }, []);
 
-  const clientes = [
-    {
-      id: 1,
-      nombre: "Domenica Canizares",
-      email: "correo@email.com",
-      trabajo: "Developer",
-      rate: "100",
-      estado: true,
-    },
-    {
-      id: 2,
-      nombre: "Domenica1 Canizares",
-      email: "correo1@email.com",
-      trabajo: "Developer1",
-      rate: "100",
-      estado: true,
-    },
-    {
-      id: 3,
-      nombre: "Domenica2 Canizares",
-      email: "correo2@email.com",
-      trabajo: "Developer2",
-      rate: "100",
-      estado: false,
-    },
-  ];
+  const filtroData = clientes.filter((cliente) => {
+    return (
+      cliente.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      cliente.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      cliente.trabajo.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
+  // const clientes = [
+  //   {
+  //     id: 1,
+  //     nombre: "Domenica Canizares",
+  //     email: "correo@email.com",
+  //     trabajo: "Developer",
+  //     rate: "100",
+  //     estado: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     nombre: "Domenica1 Canizares",
+  //     email: "correo1@email.com",
+  //     trabajo: "Developer1",
+  //     rate: "100",
+  //     estado: true,
+  //   },
+  //   {
+  //     id: 3,
+  //     nombre: "Domenica2 Canizares",
+  //     email: "correo2@email.com",
+  //     trabajo: "Developer2",
+  //     rate: "100",
+  //     estado: false,
+  //   },
+  // ];
 
   return (
     <>
+      {error && <div className="alert alert-error">Error: {error}</div>}
+
       <div className="overflow-x-auto mt-10">
         <table className="table">
           {/* head */}
@@ -60,7 +65,7 @@ const ListTable = ({ handleOpen }) => {
             </tr>
           </thead>
           <tbody className="hover">
-            {dataTabla.map((cliente) => (
+            {filtroData.map((cliente) => (
               <tr>
                 <th>{cliente.id}</th>
                 <td>{cliente.nombre}</td>

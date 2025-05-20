@@ -3,35 +3,48 @@ import "./App.css";
 import ListTable from "./components/ListTable";
 import { ModalForm } from "./components/ModalForm";
 import Navbar from "./components/Navbar";
+import axios from "axios";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [modalMode, setModalMode] = useState("add");
+  const [buscarTermino, setBuscarTermino] = useState("");
+  const [clientes, setClientes] = useState([]);
+  const [clienteData, setClienteData] = useState(null);
 
   const handleOpen = (mode) => {
     setIsOpen(true);
     setModalMode(mode);
   };
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (nuevoCliente) => {
     if (modalMode === "add") {
-      // Add new client
-      console.log("Adding new client", data);
+      const response = axios.post(
+        "http://localhost:3000/api/clientes",
+        nuevoCliente
+      );
+
+      console.log("Adding new client", response.data);
     } else {
-      // Edit client
-      console.log("Editing client", data);
+      console.log("Editing client");
     }
+  };
+
+  const handleSearchChange = (event) => {
+    setBuscarTermino(event.target.value);
   };
 
   return (
     <>
-      <Navbar onOpen={() => handleOpen("add")} />
+      <Navbar onOpen={() => handleOpen("add")} onSearch={setBuscarTermino} />
 
       <div className="flex justify-end mt-4 mr-10">
         <input
           type="text"
           placeholder="Buscar"
           className="input input-bordered w-24 md:w-auto mr-10"
+          value={buscarTermino}
+          onChange={handleSearchChange}
         />
 
         <button className="btn btn-primary" onClick={() => handleOpen("add")}>
@@ -39,13 +52,18 @@ function App() {
         </button>
       </div>
 
-      <ListTable handleOpen={handleOpen} />
+      <ListTable
+        handleOpen={handleOpen}
+        searchTerm={buscarTermino}
+        clientes={clientes}
+      />
 
       <ModalForm
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onSubmit={handleSubmit}
         mode={modalMode}
+        clienteData={clienteData}
       />
     </>
   );
