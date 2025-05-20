@@ -14,19 +14,15 @@ Interfaz web de gestión de clientes construida con **React + Vite** y **Tailwin
 - [FrontCRUD](#frontcrud)
   - [📑 Tabla de Contenidos](#-tabla-de-contenidos)
   - [🖥️ Vista previa](#️-vista-previa)
-  - [�️ Vista previa](#️-vista-previa-1)
   - [🚀 Funcionalidades](#-funcionalidades)
   - [🛠️ Tecnologías utilizadas](#️-tecnologías-utilizadas)
   - [📦 Instalación](#-instalación)
   - [🗂️ Estructura del proyecto](#️-estructura-del-proyecto)
   - [📤 Exportar a Excel](#-exportar-a-excel)
   - [🧪 Por hacer](#-por-hacer)
-  - [🤝 Contribuir](#-contribuir)
   - [👩‍💻 Autora](#-autora)
 
 ---
-
-## 🖥️ Vista previa
 
 ## 🖥️ Vista previa
 
@@ -107,13 +103,6 @@ El botón **Exportar Excel** descargará los clientes filtrados en un archivo Ex
 - Paginación dinámica desde backend.
 - Soporte para imágenes de cliente.
 - Autenticación real y gestión de usuarios.
-
----
-
-## 🤝 Contribuir
-
-¡Las contribuciones son bienvenidas!  
-Si deseas mejorar este proyecto, por favor abre un issue o haz un pull request.
 
 ---
 
