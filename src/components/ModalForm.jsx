@@ -12,6 +12,11 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, mode }) => {
     setEstado(e.target.value === "Activo");
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onClose();
+  };
+
   return (
     <>
       <dialog
@@ -23,7 +28,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, mode }) => {
           <h3 className="font-bold text.lg py-4">
             {mode === "add" ? "Añadir Cliente" : "Editar Cliente"}
           </h3>
-          <form method="dialog">
+          <form method="dialog" onSubmit={handleSubmit}>
             <label className="input input-bordered my-4 flex items-center gap-2">
               Nombre
               <input
@@ -74,7 +79,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, mode }) => {
                 <option>Inactivo</option>
               </select>
             </div>
-            <button className="btn btn-success" onClick={onSubmit}>
+            <button className="btn btn-success">
               {mode === "add" ? "Crear" : "Editar"}
             </button>{" "}
             <button

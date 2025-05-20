@@ -1,6 +1,22 @@
-import React from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const ListTable = ({ handleOpen }) => {
+  const [dataTabla, setDataTabla] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/clientes");
+        setDataTabla(response.data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    fetchData();
+  }, []);
+
   const clientes = [
     {
       id: 1,
@@ -44,7 +60,7 @@ const ListTable = ({ handleOpen }) => {
             </tr>
           </thead>
           <tbody className="hover">
-            {clientes.map((cliente) => (
+            {dataTabla.map((cliente) => (
               <tr>
                 <th>{cliente.id}</th>
                 <td>{cliente.nombre}</td>

@@ -27,11 +27,14 @@ function App() {
     <>
       <Navbar onOpen={() => handleOpen("add")} />
 
-      <div className="navbar-end ">
-        <button
-          className="btn btn-primary"
-          onClick={() => document.getElementById("my_modal_5").showModal()}
-        >
+      <div className="flex justify-end mt-4 mr-10">
+        <input
+          type="text"
+          placeholder="Buscar"
+          className="input input-bordered w-24 md:w-auto mr-10"
+        />
+
+        <button className="btn btn-primary" onClick={() => handleOpen("add")}>
           Añadir Cliente
         </button>
       </div>
