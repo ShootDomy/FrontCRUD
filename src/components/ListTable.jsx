@@ -66,7 +66,7 @@ const ListTable = ({ handleOpen, searchTerm }) => {
           </thead>
           <tbody className="hover">
             {filtroData.map((cliente) => (
-              <tr>
+              <tr key={cliente.id}>
                 <th>{cliente.id}</th>
                 <td>{cliente.nombre}</td>
                 <td>{cliente.email}</td>
@@ -84,7 +84,7 @@ const ListTable = ({ handleOpen, searchTerm }) => {
                 <td>
                   <button
                     className="btn btn-accent btn-xs"
-                    onClick={() => handleOpen("edit")}
+                    onClick={() => handleOpen("edit", cliente)}
                   >
                     Editar
                   </button>

@@ -24,6 +24,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, mode, clienteData }) => {
       };
 
       await onSubmit(clienteData);
+      onClose();
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
     }
@@ -44,7 +45,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, mode, clienteData }) => {
       setRate("");
       setEstado(true);
     }
-  }, [clienteData, mode]);
+  }, [mode, clienteData]);
 
   return (
     <>
@@ -102,6 +103,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, mode, clienteData }) => {
               <select
                 value={estado ? "Activo" : "Inactivo"}
                 className="select select-bordered w-full max-w-xs"
+                onChange={handleEstadoChange}
               >
                 {/* <option disabled={true}>Estado</option> */}
                 <option>Activo</option>
@@ -112,6 +114,7 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, mode, clienteData }) => {
               {mode === "add" ? "Crear" : "Editar"}
             </button>{" "}
             <button
+              type="button"
               onClick={onClose}
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
             >

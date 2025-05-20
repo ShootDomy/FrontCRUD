@@ -12,8 +12,9 @@ function App() {
   const [clientes, setClientes] = useState([]);
   const [clienteData, setClienteData] = useState(null);
 
-  const handleOpen = (mode) => {
+  const handleOpen = (mode, cliente) => {
     setIsOpen(true);
+    setClienteData(cliente);
     setModalMode(mode);
   };
 
@@ -26,7 +27,11 @@ function App() {
 
       console.log("Adding new client", response.data);
     } else {
-      console.log("Editing client");
+      const response = axios.put(
+        `http://localhost:3000/api/clientes/${clienteData.id}`,
+        nuevoCliente
+      );
+      console.log("Editing client", response.data);
     }
   };
 
