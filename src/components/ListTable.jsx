@@ -1,15 +1,13 @@
-import { useState } from "react";
-
 const ClienteRow = ({ cliente, handleOpen, onDelete }) => (
   <tr>
-    <th>{cliente.id}</th>
+    <td>{cliente.id}</td>
     <td>{cliente.nombre}</td>
     <td>{cliente.email}</td>
     <td>{cliente.trabajo}</td>
     <td>{cliente.rate}</td>
     <td>
       <span
-        className={`badge rounded-full w-20 ${
+        className={`badge ${
           cliente.estado ? "badge-primary" : "badge-outline badge-primary"
         }`}
       >
@@ -18,41 +16,38 @@ const ClienteRow = ({ cliente, handleOpen, onDelete }) => (
     </td>
     <td>
       <button
-        className="btn btn-accent btn-xs flex items-center gap-1 mr-2"
+        className="btn btn-accent btn-xs mr-2"
         onClick={() => handleOpen("edit", cliente)}
         aria-label={`Editar cliente ${cliente.nombre}`}
       >
-        <span aria-hidden="true">✏️</span>
+        ✏️ Editar
       </button>
       <button
-        className="btn btn-error btn-xs flex items-center gap-1"
-        onClick={() => onDelete(cliente.id)}
+        className="btn btn-error btn-xs"
+        onClick={() => onDelete(cliente)}
         aria-label={`Eliminar cliente ${cliente.nombre}`}
       >
-        <span aria-hidden="true">🗑️</span>
+        🗑️ Eliminar
       </button>
     </td>
   </tr>
 );
 
-const ListTable = ({ handleOpen, clientes, onDelete }) => {
-  // const clientes = [
-  //   {
-  //     id: 1,
-  //     nombre: "Domenica Canizares",
-  //     email: "correo@email.com",
-  //     trabajo: "Developer",
-  //     rate: "100",
-  //     estado: true,
-  //   }
-  // ];
-
-  const [pagina, setPagina] = useState(1);
-  const porPagina = 5;
-  const clientesPaginados = clientes.slice(
-    (pagina - 1) * porPagina,
-    pagina * porPagina
-  );
+const ListTable = ({
+  handleOpen,
+  clientes,
+  onDelete,
+  pagina,
+  setPagina,
+  totalPaginas,
+  onSort,
+  sortBy,
+  sortDirection,
+}) => {
+  const sortArrow = (col) => {
+    if (sortBy !== col) return null;
+    return sortDirection === "asc" ? " ▲" : " ▼";
+  };
 
   return (
     <>
@@ -60,25 +55,66 @@ const ListTable = ({ handleOpen, clientes, onDelete }) => {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Email</th>
-              <th scope="col">Trabajo</th>
-              <th scope="col">Rate</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Acciones</th>
+              <th>
+                <button
+                  className="btn btn-ghost btn-xs"
+                  onClick={() => onSort("id")}
+                >
+                  ID{sortArrow("id")}
+                </button>
+              </th>
+              <th>
+                <button
+                  className="btn btn-ghost btn-xs"
+                  onClick={() => onSort("nombre")}
+                >
+                  Nombre{sortArrow("nombre")}
+                </button>
+              </th>
+              <th>
+                <button
+                  className="btn btn-ghost btn-xs"
+                  onClick={() => onSort("email")}
+                >
+                  Email{sortArrow("email")}
+                </button>
+              </th>
+              <th>
+                <button
+                  className="btn btn-ghost btn-xs"
+                  onClick={() => onSort("trabajo")}
+                >
+                  Trabajo{sortArrow("trabajo")}
+                </button>
+              </th>
+              <th>
+                <button
+                  className="btn btn-ghost btn-xs"
+                  onClick={() => onSort("rate")}
+                >
+                  Rate{sortArrow("rate")}
+                </button>
+              </th>
+              <th>
+                <button
+                  className="btn btn-ghost btn-xs"
+                  onClick={() => onSort("estado")}
+                >
+                  Estado{sortArrow("estado")}
+                </button>
+              </th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody className="hover">
-            {clientesPaginados.length === 0 ? (
+            {clientes.length === 0 ? (
               <tr>
                 <td colSpan={7} className="text-center">
                   No hay clientes para mostrar.
                 </td>
               </tr>
             ) : (
-              clientesPaginados.map((cliente) => (
-                // Punto 6: Llave única
+              clientes.map((cliente) => (
                 <ClienteRow
                   key={cliente.id}
                   cliente={cliente}
@@ -89,7 +125,6 @@ const ListTable = ({ handleOpen, clientes, onDelete }) => {
             )}
           </tbody>
         </table>
-        {/* Punto 12: Controles de paginación fuera de la tabla */}
         <div className="flex justify-center gap-4 my-4">
           <button
             className="btn btn-sm"
@@ -98,13 +133,13 @@ const ListTable = ({ handleOpen, clientes, onDelete }) => {
           >
             ⬅️ Anterior
           </button>
-          <span>Página {pagina}</span>
+          <span className="font-semibold">
+            Página {pagina} de {totalPaginas}
+          </span>
           <button
             className="btn btn-sm"
-            onClick={() =>
-              setPagina((p) => (clientes.length > p * porPagina ? p + 1 : p))
-            }
-            disabled={clientes.length <= pagina * porPagina}
+            onClick={() => setPagina((p) => (p < totalPaginas ? p + 1 : p))}
+            disabled={pagina === totalPaginas || totalPaginas === 0}
           >
             Siguiente ➡️
           </button>
