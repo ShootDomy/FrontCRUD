@@ -1,28 +1,62 @@
 # FrontCRUD
 
-Interfaz web de gestión de clientes construida con React + Vite y TailwindCSS. Permite visualizar, buscar, editar, eliminar y exportar registros de clientes, además de gestionar su estado y detalles asociados.
+[![React](https://img.shields.io/badge/React-18-blue?logo=react)](https://reactjs.org/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-blue?logo=tailwindcss)](https://tailwindcss.com/)
+[![Vite](https://img.shields.io/badge/Vite-4-blueviolet?logo=vite)](https://vitejs.dev/)
+[![MIT License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+Interfaz web de gestión de clientes construida con **React + Vite** y **TailwindCSS**. Permite visualizar, buscar, editar, eliminar y exportar registros de clientes, además de gestionar su estado y detalles asociados.
+
+---
+
+## 📑 Tabla de Contenidos
+
+- [FrontCRUD](#frontcrud)
+  - [📑 Tabla de Contenidos](#-tabla-de-contenidos)
+  - [🖥️ Vista previa](#️-vista-previa)
+  - [🚀 Funcionalidades](#-funcionalidades)
+  - [🛠️ Tecnologías utilizadas](#️-tecnologías-utilizadas)
+  - [📦 Instalación](#-instalación)
+  - [🗂️ Estructura del proyecto](#️-estructura-del-proyecto)
+  - [📤 Exportar a Excel](#-exportar-a-excel)
+  - [🧪 Por hacer](#-por-hacer)
+  - [🤝 Contribuir](#-contribuir)
+  - [👩‍💻 Autora](#-autora)
+
+---
 
 ## 🖥️ Vista previa
 
 ![Vista previa](./path-to-image.png) <!-- Reemplaza con el path correcto si subes la imagen al repo -->
 
+---
+
 ## 🚀 Funcionalidades
 
-- Visualización de lista de clientes con paginación.
-- Búsqueda de clientes por nombre o correo electrónico.
-- Filtrado por estado (Todos, Activo, Inactivo).
-- Exportación de registros a Excel.
-- Creación de nuevos clientes.
-- Edición y eliminación de clientes existentes.
+- Visualización de lista de clientes con paginación dinámica.
+- Búsqueda de clientes por nombre, correo electrónico o trabajo.
+- Filtro por estado (Todos, Activo, Inactivo).
+- Exportación de registros a Excel (.xlsx).
+- Creación, edición y eliminación de clientes.
+- Confirmación visual antes de eliminar.
 - Visualización de estados con etiquetas estilizadas.
-- Botón flotante para añadir nuevos clientes.
+- Notificaciones de éxito/error tipo toast.
+- Botón destacado para añadir nuevos clientes.
+- Responsive y accesible.
+
+---
 
 ## 🛠️ Tecnologías utilizadas
 
 - [React](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [Axios](https://axios-http.com/) – Para consumo de API
-- [React Icons](https://react-icons.github.io/react-icons/) – Para íconos en botones
+- [Axios](https://axios-http.com/) – Consumo de API
+- [xlsx](https://www.npmjs.com/package/xlsx) – Exportar a Excel
+- [react-hot-toast](https://react-hot-toast.com/) – Notificaciones
+- [React Icons](https://react-icons.github.io/react-icons/) – Íconos en botones
+
+---
 
 ## 📦 Instalación
 
@@ -33,7 +67,11 @@ npm install
 npm run dev
 ```
 
-```graphql
+---
+
+## 🗂️ Estructura del proyecto
+
+```plaintext
 src/
 ├── components/       # Componentes reutilizables (tabla, botones, formularios)
 ├── pages/            # Vistas principales (Dashboard, Crear, Editar)
@@ -43,37 +81,50 @@ src/
 └── main.jsx          # Punto de entrada principal
 ```
 
-## 📤 Exportar Excel
-La funcionalidad de exportación convierte la tabla de clientes en un archivo .xlsx utilizando una librería como xlsx (asegúrate de que esté instalada).
+---
+
+## 📤 Exportar a Excel
+
+La funcionalidad de exportación convierte la tabla de clientes en un archivo `.xlsx` utilizando la librería [xlsx](https://www.npmjs.com/package/xlsx).  
+Asegúrate de tenerla instalada:
+
+```bash
+npm install xlsx
+```
+
+El botón **Exportar Excel** descargará los clientes filtrados en un archivo Excel.
+
+---
 
 ## 🧪 Por hacer
-Validaciones más robustas en los formularios.
 
-Manejo de errores en peticiones.
+- Validaciones más robustas en los formularios.
+- Mejor manejo de errores en peticiones.
+- Filtros avanzados por roles, rate, etc.
+- Paginación dinámica desde backend.
+- Soporte para imágenes de cliente.
+- Autenticación real y gestión de usuarios.
 
-Notificaciones de éxito/error.
+---
 
-Filtro avanzado por roles, rate, etc.
+## 🤝 Contribuir
 
-Paginación dinámica desde backend.
+¡Las contribuciones son bienvenidas!  
+Si deseas mejorar este proyecto, por favor abre un issue o haz un pull request.
+
+---
 
 ## 👩‍💻 Autora
-Doménica Cañizares
-GitHub: @ShootDomy
-Correo: canizaresdomenica4@gmail.com
-LinkedIn: https://www.linkedin.com/in/domenica-vintimilla-24a735245/
 
+**Doménica Cañizares**  
+- GitHub: [@ShootDomy](https://github.com/ShootDomy)
+- Correo: canizaresdomenica4@gmail.com
+- [LinkedIn](https://www.linkedin.com/in/domenica-vintimilla-24a735245/)
 
+---
 
-<!-- # React + Vite
+<!--
+# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project. -->
+Este template proporciona una configuración mínima para trabajar con React y Vite.
+-->
