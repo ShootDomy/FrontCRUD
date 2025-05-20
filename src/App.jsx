@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import ListTable from "./components/ListTable";
 import { ModalForm } from "./components/ModalForm";
@@ -12,6 +12,13 @@ function App() {
   const [clientes, setClientes] = useState([]);
   const [clienteData, setClienteData] = useState(null);
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/clientes")
+      .then((res) => setClientes(res.data))
+      .catch((err) => console.error(err));
+  }, []);
+
   const handleOpen = (mode, cliente) => {
     setIsOpen(true);
     setClienteData(cliente);
@@ -20,18 +27,26 @@ function App() {
 
   const handleSubmit = async (nuevoCliente) => {
     if (modalMode === "add") {
-      const response = axios.post(
+      const response = await axios.post(
         "http://localhost:3000/api/clientes",
         nuevoCliente
       );
 
       console.log("Adding new client", response.data);
+
+      setClientes((prevClientes) => [...prevClientes, response.data]);
     } else {
-      const response = axios.put(
+      const response = await axios.put(
         `http://localhost:3000/api/clientes/${clienteData.id}`,
         nuevoCliente
       );
       console.log("Editing client", response.data);
+
+      setClientes((prevClientes) =>
+        prevClientes.map((cliente) =>
+          cliente.id === clienteData.id ? response.data : cliente
+        )
+      );
     }
   };
 
@@ -60,6 +75,7 @@ function App() {
       <ListTable
         handleOpen={handleOpen}
         searchTerm={buscarTermino}
+        setClientes={setClientes}
         clientes={clientes}
       />
 

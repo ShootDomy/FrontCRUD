@@ -1,18 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const ListTable = ({ handleOpen, searchTerm }) => {
-  const [clientes, setClientes] = useState([]);
+const ListTable = ({ handleOpen, clientes, setClientes, searchTerm }) => {
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/clientes")
-      .then((res) => setClientes(res.data))
-      .catch((err) => console.error(err));
-  }, []);
-
   const filtroData = clientes.filter((cliente) => {
+    if (!cliente) return false;
+
     return (
       cliente.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
       cliente.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
