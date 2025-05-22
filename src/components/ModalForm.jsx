@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { REGEX_EMAIL } from "../utils/Constants";
+import { validateEmail } from "../utils/HelperFunctions";
 
 export const ModalForm = ({ isOpen, onClose, onSubmit, mode, clienteData }) => {
   const [nombre, setNombre] = useState("");
@@ -12,8 +14,6 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, mode, clienteData }) => {
   const handleEstadoChange = (e) => {
     setEstado(e.target.value === "Activo");
   };
-
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,7 +108,6 @@ export const ModalForm = ({ isOpen, onClose, onSubmit, mode, clienteData }) => {
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               aria-label="Nombre"
-              required
             />
           </div>
           <div>

@@ -2,7 +2,7 @@ export default function Navbar({ onOpen, onSearch, onLogout }) {
   return (
     <div className="navbar bg-base-100 p-4">
       <div className="navbar-start">
-        <a className="btn btn-ghost text-xl" aria-label="Ir a inicio">
+        <a className="btn btn-ghost text-xl" aria-label="Ir a inicio" href="/">
           Clientes
         </a>
       </div>

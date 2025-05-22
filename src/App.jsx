@@ -82,9 +82,9 @@ function App() {
 
   // CRUD
   const handleOpen = (mode, cliente) => {
-    setIsOpen(true);
     setClienteData(cliente);
     setModalMode(mode);
+    setIsOpen(true);
   };
 
   const handleSubmit = async (nuevoCliente) => {
@@ -166,7 +166,6 @@ function App() {
 
   return (
     <>
-      <Toaster position="top-right" />
       <Navbar
         onOpen={() => handleOpen("add")}
         onSearch={setBuscarTermino}
@@ -232,8 +231,6 @@ function App() {
       />
 
       {/* Modal de confirmación para eliminar */}
-      {console.log("Modal visible:", showDeleteModal, clienteAEliminar)}
-
       {showDeleteModal && (
         <div
           className="modal modal-open"
